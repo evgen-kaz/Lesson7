@@ -49,11 +49,11 @@ public class TestData {
         return "Штата нет в списке";
     }
 
-    private static Object getRandomInt(int min, int max) { //для генерации цифр нужен диапазон в котором можно генерировать цыфры
+    private static Object getRandomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
-    public static String getRandomPhone() { //генерируем по маске номер телефона. Количество спецификаторов должно быть == количеству аргументов (это getRandomInt)
+    public static String getRandomPhone() {
         return String.format("%s%s%s%s", getRandomInt(7, 8), getRandomInt(900, 999), getRandomInt(100, 999), getRandomInt(100, 999));
     }
 
