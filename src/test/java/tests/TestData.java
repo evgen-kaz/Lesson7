@@ -33,17 +33,17 @@ public class TestData {
             stateCity = state[random.nextInt(state.length)],
             city = randomCity(stateCity);
 
-    public static String randomCity(String state) {
-        if (state.equals("NCR")) {
+    public static String randomCity(String stateCity) {
+        if (stateCity.equals("NCR")) {
             return faker.options().option("Delhi", "Gurgaon", "Noida");
         }
-        if (state.equals("Uttar Pradesh")) {
+        if (stateCity.equals("Uttar Pradesh")) {
             return faker.options().option("Agra", "Lucknow", "Merrut");
         }
-        if (state.equals("Haryana")) {
+        if (stateCity.equals("Haryana")) {
             return faker.options().option("Karnal", "Panipat");
         }
-        if (state.equals("Rajasthan")) {
+        if (stateCity.equals("Rajasthan")) {
             return faker.options().option("Jaipur", "Jaiselmer");
         }
         return "Штата нет в списке";
