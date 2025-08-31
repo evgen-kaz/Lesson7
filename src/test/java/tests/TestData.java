@@ -49,7 +49,7 @@ public class TestData {
         return "Штата нет в списке";
     }
 
-    private static Object getRandomInt(int min, int max) {
+    private static int getRandomInt(int min, int max) {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
