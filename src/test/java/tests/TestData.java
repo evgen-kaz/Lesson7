@@ -3,7 +3,6 @@ package tests;
 import com.github.javafaker.Faker;
 
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class TestData {
     public static Faker faker = new Faker();
@@ -12,7 +11,7 @@ public class TestData {
     static String[]
             gender = {"Male", "Female", "Other"},
             hobbies = {"Sports", "Reading", "Music"},
-            month = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"},
+            months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"},
             subjects = {"Math", "Chemistry", "Computer Science", "Accounting", "Arts", "Social Studies", "History", "Physics", "Hindi"},
             state = {"NCR", "Uttar Pradesh", "Haryana", "Rajasthan"};
 
@@ -21,50 +20,33 @@ public class TestData {
             lastName = faker.name().lastName(),
             userEmail = faker.internet().emailAddress(),
             userGender = gender[random.nextInt(gender.length)],
-            userDay = getRandomDayOfBirth(),
-            userMonth = month[random.nextInt(month.length)],
-            userYear = getRandomYearOfBirth(),
-            phone = getRandomPhone(),
+            userMonth = months[random.nextInt(months.length)],
+            phone = faker.phoneNumber().subscriberNumber(10),
             userSubject = subjects[random.nextInt(subjects.length)],
             userHobbies = hobbies[random.nextInt(hobbies.length)],
             file = "cat.jfif",
             currentAddress = faker.address().streetAddress(),
             emailWrong = firstName + lastName + "ru",
             stateCity = state[random.nextInt(state.length)],
-            city = randomCity(stateCity);
+            city = selectCity(stateCity);
+    public static int
+            userYear = faker.number().numberBetween(1900, 2100),
+            userDay = getRandomDayOfBirth(userMonth);
 
-    public static String randomCity(String stateCity) {
-        if (stateCity.equals("NCR")) {
-            return faker.options().option("Delhi", "Gurgaon", "Noida");
-        }
-        if (stateCity.equals("Uttar Pradesh")) {
-            return faker.options().option("Agra", "Lucknow", "Merrut");
-        }
-        if (stateCity.equals("Haryana")) {
-            return faker.options().option("Karnal", "Panipat");
-        }
-        if (stateCity.equals("Rajasthan")) {
-            return faker.options().option("Jaipur", "Jaiselmer");
-        }
-        return "Штата нет в списке";
-    }
-
-    private static int getRandomInt(int min, int max) {
-        return ThreadLocalRandom.current().nextInt(min, max + 1);
-    }
-
-    public static String getRandomPhone() {
-        return String.format("%s%s%s%s", getRandomInt(7, 8), getRandomInt(900, 999), getRandomInt(100, 999), getRandomInt(100, 999));
-    }
-
-    public static String getRandomDayOfBirth() {
-        if (!month.equals("February")) {
-            return String.format("%s", getRandomInt(1, 31));
+    private static int getRandomDayOfBirth(String userMonth) {
+        if (!userMonth.equals("February")) {
+            return faker.number().numberBetween(1, 31);
         } else
-            return String.format("%s", getRandomInt(1, 29));
+            return faker.number().numberBetween(1, 29);
     }
 
-    public static String getRandomYearOfBirth() {
-        return String.format("%s", getRandomInt(1900, 2100));
+    public static String selectCity(String stateCity) {
+        return switch (stateCity) {
+            case "NCR" -> faker.options().option("Delhi", "Gurgaon", "Noida");
+            case "Uttar Pradesh" -> faker.options().option("Agra", "Lucknow", "Merrut");
+            case "Haryana" -> faker.options().option("Karnal", "Panipat");
+            case "Rajasthan" -> faker.options().option("Jaipur", "Jaiselmer");
+            default -> null;
+        };
     }
 }
